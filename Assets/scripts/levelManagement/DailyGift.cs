@@ -35,7 +35,7 @@ public class DailyGift : MonoBehaviour
         CurrentDate = DateTime.UtcNow.ToString("dd/MM/yyyy");
         var Difference = DateTime.Parse(CurrentDate) - DateTime.Parse(PreviousDate);
         if(Difference.TotalDays >= DaysBetweenRewards){
-            if(Difference.TotalDays == DaysBetweenRewards) newDayStreak = (DayStreak % MaxDayStreak);
+            if(Difference.TotalDays == DaysBetweenRewards) newDayStreak = (DayStreak % MaxDayStreak)+1;
             else newDayStreak = 0;
             DailyGiftSize = DailyGiftSizeArray[newDayStreak];
             DailyGiftPanel.SetActive(true);

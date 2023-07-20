@@ -18,7 +18,7 @@ public class Bonuses : MonoBehaviour
     [SerializeField] GameObject PauseBut;
     [SerializeField] GameObject ExitBonusModeBut;
 
-    private const int HammerPrice = 0;//5
+    private const int HammerPrice = 5;
     private const int FurnacePrice = 10;
     private const int MovePrice = 3;
 
@@ -29,6 +29,10 @@ public class Bonuses : MonoBehaviour
     [SerializeField] Text hammerPriceVisualiser;
     [SerializeField] Text furnacePriceVisualiser;
     [SerializeField] Text movePriceVisualiser;
+
+    [SerializeField] private GameObject hammerUseVisualiser;
+    [SerializeField] private GameObject furnaceUseVisualiser;
+    [SerializeField] private GameObject moveUseVisualiser;
 
     private static bool _isHammerActivated;
     private static bool _isFurnaceActivated;
@@ -47,7 +51,7 @@ public class Bonuses : MonoBehaviour
         _isFurnaceActivated = false;
         _isMoveActivated = false;
         _isInBonusMode = false;
-        Character.Red.MoveEvent.AddListener(moveButActivate);
+        Character.Red.MoveEvent.AddListener(StopUseMoveBonus);
     }
 
     private void Update(){
@@ -88,7 +92,8 @@ public class Bonuses : MonoBehaviour
     }
 
     private IEnumerator HammerAnimate(int x, int y, Vector3 HitPoint){
-        _hammerObject = Instantiate(_hammer, HitPoint, Quaternion.identity);
+        Quaternion rotation = x <= 5 ? Quaternion.identity : Quaternion.Euler(0,180,0);
+        _hammerObject = Instantiate(_hammer, HitPoint, rotation);
         GameProcess.Cells[x,y].DestroyObstacle();
         LeaveBonusMode();
         yield return new WaitForSeconds(1);
@@ -97,31 +102,36 @@ public class Bonuses : MonoBehaviour
 
     public void Hammer(){
         if(_gemMarket._isEnoughMoney(HammerPrice)){
-            EnterBonusMode();
             _isHammerActivated = true;
+            EnterBonusMode();
         }
     }
 
     public void Furnace(){
         if(_gemMarket._isEnoughMoney(FurnacePrice)){
-            EnterBonusMode();
             _isFurnaceActivated = true;
+            EnterBonusMode();
         }
     }
 
     public void Move(){
         if(_gemMarket._isEnoughMoney(MovePrice)){
             _isMoveActivated = true;
+            moveUseVisualiser.SetActive(true);
             moveBut.interactable = false;
             _gemMarket.Buy(MovePrice);
         }
     }
 
-    private void moveButActivate(){
+    private void StopUseMoveBonus(){
+        moveUseVisualiser.SetActive(false);
         moveBut.interactable = true;
     }
 
     private void EnterBonusMode(){
+        if(_isHammerActivated) hammerUseVisualiser.SetActive(true);
+        else if(_isFurnaceActivated) furnaceUseVisualiser.SetActive(true);
+        
         PauseSet.Pause();
         PauseBut.SetActive(false);
         ExitBonusModeBut.SetActive(true);
@@ -133,6 +143,9 @@ public class Bonuses : MonoBehaviour
     }
 
     public void LeaveBonusMode(){
+        if(_isHammerActivated) hammerUseVisualiser.SetActive(false);
+        else if(_isFurnaceActivated) furnaceUseVisualiser.SetActive(false);
+
         PauseSet.Resume();
         PauseBut.SetActive(true);
         ExitBonusModeBut.SetActive(false);
