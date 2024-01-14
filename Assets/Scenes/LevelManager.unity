@@ -2507,7 +2507,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Gem X5
+  m_Text: "\u0430\u043B\u043C\u0430\u0437 X5"
 --- !u!222 &405168948
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5496,7 +5496,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Gem X3
+  m_Text: "\u0430\u043B\u043C\u0430\u0437 X3"
 --- !u!222 &920997444
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -9768,7 +9768,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Gem X1
+  m_Text: "\u0430\u043B\u043C\u0430\u0437 X1"
 --- !u!222 &1621820935
 CanvasRenderer:
   m_ObjectHideFlags: 0

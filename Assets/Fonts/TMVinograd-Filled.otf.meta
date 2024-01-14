@@ -1,0 +1,26 @@
+fileFormatVersion: 2
+guid: ecc18ac03f3a40948ab9b473ce7c86ab
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontNames:
+  - TM Vinograd
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: c6a1ce0ef8ce8034391d84dbaba0bfaa, type: 3}
+  - {fileID: 12800000, guid: a7d26654d5201ff45996c0ad09f183e1, type: 3}
+  - {fileID: 12800000, guid: 38b8e71a6e00dd64b9d8957148dcf282, type: 3}
+  - {fileID: 12800000, guid: 91e9665e5e1963843bcc5e8b8fed2422, type: 3}
+  - {fileID: 12800000, guid: a73a51c15a1ec1b48806a9f95f23f105, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
