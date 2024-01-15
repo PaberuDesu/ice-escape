@@ -22,9 +22,9 @@ public class LevelConditions : MonoBehaviour {
         LevelPassConditions level_tasks = JsonUtility.FromJson<LevelPassConditions>(File.ReadAllText(Application.streamingAssetsPath + $"/Levels/level{LoadLevel.LevelNumber}-Tasks.json"));
         _levelNumber.text = $"Уровень {LoadLevel.LevelNumber+1}";
         _tasks = level_tasks.Tasks();
-        TasksText.text = "";
-        for (int i = 0; i < 3; i++)
-            TasksText.text += $"\n★ {_tasks[i].definition}\n";
+        TasksText.text = $"★ {_tasks[0].definition}";
+        for (int i = 1; i < 3; i++)
+            TasksText.text += $"\n\n★ {_tasks[i].definition}";
     }
 }
 
@@ -63,27 +63,27 @@ internal class TaskData{
         switch(ID){
             case 0:
                 act = (int x) => true;
-                definition = "Синий победил";
+                definition = "СИНИЙ ПОБЕДИЛ";
                 break;
             case 1:
                 act = (int x) => Character.Red._isNextTo(CellTypes.PermanentIceLocator);
-                definition = "В конце игры красный возле твердого льда";
+                definition = "В КОНЦЕ ИГРЫ КРАСНЫЙ ВОЗЛЕ ТВЕРДОГО ЛЬДА";
                 break;
             case 2:
                 act = (int x) => EndGame.reasonOfEnd == "Синий сбежал";
-                definition = "Синий покинул комнату";
+                definition = "СИНИЙ ПОКИНУЛ КОМНАТУ";
                 break;
             case 3:
                 act = (int x) => PointCounter._pointCounter > 30;
-                definition = "набрано больше 30 очков";
+                definition = "НАБРАНО БОЛЬШЕ 30 ОЧКОВ";
                 break;
             case 4:
                 act = (int x) => GetStarOnField.starObject?.activeInHierarchy == false;
-                definition = "Собрана звезда в комнате";
+                definition = "ПОЛУЧЕНА ЗВЕЗДА В КОМНАТЕ";
                 break;
             case 5:
                 act = (int x) => Character.Red._isNextTo(CellTypes.WallLocator);
-                definition = "В конце игры красный возле стены";
+                definition = "В КОНЦЕ ИГРЫ КРАСНЫЙ ВОЗЛЕ СТЕНЫ";
                 break;
             default:
                 act = (int x) => true;
