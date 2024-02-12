@@ -1984,6 +1984,7 @@ GameObject:
   - component: {fileID: 971841504}
   - component: {fileID: 971841503}
   - component: {fileID: 971841502}
+  - component: {fileID: 971841505}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -2056,6 +2057,30 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &971841505
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 971841501}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 797dee7bc037bcf41b5f7150dc65c898, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  blueCell: {fileID: 5383566461148552966, guid: 98c883f5f3747ce48ad3735a33453622,
+    type: 3}
+  redCell: {fileID: 6762713068962983018, guid: 1d42fb8dabe59eb48b241d9e34d2fe8d, type: 3}
+  star: {fileID: 3626352115969919971, guid: 6af71ee6821f57341a07005b59379160, type: 3}
+  wall: {fileID: 4362941146509272128, guid: 4fb581b276202b245a1c0c30eb5affb1, type: 3}
+  box: {fileID: 6406311030229558524, guid: 186c78a940671d244a444da911e66538, type: 3}
+  furnace: {fileID: 7435380682837987823, guid: 5b37006cbe4901f47b3a886038d6e71a, type: 3}
+  doubleDoor: {fileID: 3084297498345696253, guid: 830e32ef302427a4594b2aa9423ab26f,
+    type: 3}
+  ice: {fileID: 9157794316006612528, guid: e238d691b3e7ae942978066d80a66c21, type: 3}
+  blue: {fileID: 6411050552237669443, guid: f0fc308a499329342a08fc78e40a2f64, type: 3}
+  red: {fileID: 2394598675170820320, guid: a54925c585c967c4aa76ccd392edaa5b, type: 3}
 --- !u!1 &1089217944
 GameObject:
   m_ObjectHideFlags: 0
@@ -3133,7 +3158,7 @@ MonoBehaviour:
     m_FontStyle: 0
     m_BestFit: 1
     m_MinSize: 0
-    m_MaxSize: 150
+    m_MaxSize: 300
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1

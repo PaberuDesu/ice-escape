@@ -457,7 +457,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4751146768150857653}
+      - m_Target: {fileID: 2611793780979697223}
         m_TargetAssemblyTypeName: GameOverExit, Assembly-CSharp
         m_MethodName: MainMenu
         m_Mode: 1
@@ -560,6 +560,7 @@ GameObject:
   - component: {fileID: 4198050812387164394}
   - component: {fileID: 4198050812387164395}
   - component: {fileID: 4198050812387164396}
+  - component: {fileID: 2611793780979697223}
   m_Layer: 9
   m_Name: Canvas
   m_TagString: Untagged
@@ -650,6 +651,18 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 0
+--- !u!114 &2611793780979697223
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4198050812387164398}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81606f83a9fafe9478a9f2a8504aba79, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4198050812741704296
 GameObject:
   m_ObjectHideFlags: 0
@@ -691,7 +704,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4198050812827712484}
   - component: {fileID: 4198050812827712482}
-  - component: {fileID: 4751146768150857653}
   m_Layer: 9
   m_Name: YouLose
   m_TagString: Untagged
@@ -736,18 +748,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &4751146768150857653
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4198050812827712485}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 228df9f89df85e445b4b76cd04a8ce9e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &4198050812842284211
 GameObject:
   m_ObjectHideFlags: 0
@@ -899,7 +899,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4751146768150857653}
+      - m_Target: {fileID: 2611793780979697223}
         m_TargetAssemblyTypeName: GameOverExit, Assembly-CSharp
         m_MethodName: Restart
         m_Mode: 1
@@ -1171,15 +1171,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2d2b605acfe748b42bca25e8769f565b, type: 3}
---- !u!4 &1135988159661370772 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3855556058237799977, guid: 2d2b605acfe748b42bca25e8769f565b,
-    type: 3}
-  m_PrefabInstance: {fileID: 4198050812623381437}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &4452021011680429142 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 2d2b605acfe748b42bca25e8769f565b,
+    type: 3}
+  m_PrefabInstance: {fileID: 4198050812623381437}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1135988159661370772 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3855556058237799977, guid: 2d2b605acfe748b42bca25e8769f565b,
     type: 3}
   m_PrefabInstance: {fileID: 4198050812623381437}
   m_PrefabAsset: {fileID: 0}

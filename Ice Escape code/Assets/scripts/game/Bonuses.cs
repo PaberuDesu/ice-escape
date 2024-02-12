@@ -5,156 +5,114 @@ using UnityEngine.UI;
 public class Bonuses : MonoBehaviour
 {
     private Camera _mainCamera;
-
     [SerializeField] private GemMarket _gemMarket;
 
-    private GameObject _hammerObject;
-
     [SerializeField] private GameObject _hammer;
-    [SerializeField] private GameObject _furnace;
 
     [SerializeField] PauseScript PauseSet;
-
-    [SerializeField] GameObject PauseBut;
+    [SerializeField] Button PauseBut;
     [SerializeField] GameObject ExitBonusModeBut;
-
-    private const int HammerPrice = 5;
-    private const int FurnacePrice = 10;
-    private const int MovePrice = 3;
-
-    [SerializeField] Button hammerBut;
-    [SerializeField] Button furnaceBut;
-    [SerializeField] Button moveBut;
-
-    [SerializeField] Text hammerPriceVisualiser;
-    [SerializeField] Text furnacePriceVisualiser;
-    [SerializeField] Text movePriceVisualiser;
-
-    [SerializeField] private GameObject hammerUseVisualiser;
-    [SerializeField] private GameObject furnaceUseVisualiser;
-    [SerializeField] private GameObject moveUseVisualiser;
-
-    private static bool _isHammerActivated;
-    private static bool _isFurnaceActivated;
-    public static bool _isMoveActivated;
-
     private static bool _isInBonusMode;
-    
-    public static GameObject destroyableObject;
+
+    [SerializeField] Button[] BonusButs;
+    [SerializeField] private GameObject[] UseVisualisers;
+    public bool[] _areBonusesActivated = new bool[3];
+    private static int[] Prices = {5, 10, 3};
+    [SerializeField] Text[] PriceVisualisers;
 
     private void Start(){
         _mainCamera = Camera.main;
-        hammerPriceVisualiser.text = $"{HammerPrice}";
-        furnacePriceVisualiser.text = $"{FurnacePrice}";
-        movePriceVisualiser.text = $"{MovePrice}";
-        _isHammerActivated = false;
-        _isFurnaceActivated = false;
-        _isMoveActivated = false;
+        for (int i = 0; i < 3; i++) {
+            PriceVisualisers[i].text = $"{Prices[i]}";
+            _areBonusesActivated[i] = false;
+        }
         _isInBonusMode = false;
-        Character.Red.MoveEvent.AddListener(StopUseMoveBonus);
     }
 
     private void Update(){
-        if(destroyableObject)
-            StartCoroutine(destroyProcess());
         if (Input.GetMouseButtonUp(0) && _isInBonusMode){
             Ray ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit, 50)){
                 Vector3 HitPoint = hit.point;
-                HitPoint.x = Mathf.Floor(HitPoint.x / 2) * 2 + 1;
-                HitPoint.y = 0.5f;
-                HitPoint.z = Mathf.Floor(HitPoint.z / 2) * 2 + 1;
-                int x = (int) Mathf.Floor(HitPoint.x / 2 + 6);
-                int y = (int) Mathf.Floor(HitPoint.z / 2 + 6);
-                if (_isHammerActivated){
-                    if (GameProcess.Cells[x,y]._isObstacleDestroyable()){
-                        StartCoroutine(HammerAnimate(x,y,HitPoint));
-                        _gemMarket.Buy(HammerPrice);
-                    }
+                HitPoint.x = Mathf.Round(HitPoint.x);
+                HitPoint.y = 0;
+                HitPoint.z = Mathf.Round(HitPoint.z);
+                int x = (int) HitPoint.x;
+                int y = (int) HitPoint.z;
+                if (_areBonusesActivated[0] && GridManager.grid[x,y]._isPlayerDestroyable) {
+                    StartCoroutine(HammerAnimate(x,y,HitPoint));
+                    LeaveBonusMode();
+                    _gemMarket.Buy(Prices[0]);
+                    return;
                 }
-                if (_isFurnaceActivated){
-                    if (GameProcess.Cells[x,y]._isAbsolutelyEmpty()){
-                        Instantiate(_furnace, HitPoint, Quaternion.identity);
-                        GameProcess.Cells[x,y] = new Cell(CellTypes.FurnaceLocator, x, y);
-                        LeaveBonusMode();
-                        _gemMarket.Buy(FurnacePrice);
-                    }
+                if (_areBonusesActivated[1] && GridManager.grid[x,y].isEmpty) {
+                    GridManager.grid[x,y] = Instantiate(CellTypes.furnace, HitPoint, Quaternion.identity);
+                    LeaveBonusMode();
+                    _gemMarket.Buy(Prices[1]);
+                    return;
                 }
             }
         }
     }
 
-    private IEnumerator destroyProcess(){
-        destroyableObject.GetComponent<Animator>().Play("SmashingDestructable");
-        yield return new WaitForSeconds(1);
-        Destroy(destroyableObject);
-    }
-
     private IEnumerator HammerAnimate(int x, int y, Vector3 HitPoint){
         Quaternion rotation = x <= 5 ? Quaternion.identity : Quaternion.Euler(0,180,0);
-        _hammerObject = Instantiate(_hammer, HitPoint, rotation);
-        GameProcess.Cells[x,y].DestroyObstacle();
-        LeaveBonusMode();
+        GameObject _hammerObject = Instantiate(_hammer, HitPoint, rotation);
+        Tile destroyableTile = GridManager.grid[x,y];
+        Debug.Log(destroyableTile);
+        destroyableTile.animator.Play("SmashingDestructable");
+        GridManager.grid[x,y] = GridManager.grid[x,y].lowerTile;
         yield return new WaitForSeconds(1);
         Destroy(_hammerObject);
+        Destroy(destroyableTile.gameObject);
     }
 
-    public void Hammer(){
-        if(_gemMarket._isEnoughMoney(HammerPrice)){
-            _isHammerActivated = true;
-            EnterBonusMode();
+    public void useBonus(int bonusNumber){
+        if(GameLogic.turn == blue.turn && _gemMarket._isEnoughMoney(Prices[bonusNumber])){
+            if (bonusNumber < 2) {
+                _areBonusesActivated[bonusNumber] = true;
+                UseVisualisers[bonusNumber].SetActive(true);
+                EnterBonusMode();
+            }
+            else if (GridManager.Red.CharacterMinAccessLevel() == 0) {
+                _areBonusesActivated[bonusNumber] = true;
+                UseVisualisers[bonusNumber].SetActive(true);
+                BonusButs[bonusNumber].interactable = false;
+                _gemMarket.Buy(Prices[bonusNumber]);
+            }
         }
     }
 
-    public void Furnace(){
-        if(_gemMarket._isEnoughMoney(FurnacePrice)){
-            _isFurnaceActivated = true;
-            EnterBonusMode();
-        }
-    }
-
-    public void Move(){
-        if(_gemMarket._isEnoughMoney(MovePrice)){
-            _isMoveActivated = true;
-            moveUseVisualiser.SetActive(true);
-            moveBut.interactable = false;
-            _gemMarket.Buy(MovePrice);
-        }
-    }
-
-    private void StopUseMoveBonus(){
-        moveUseVisualiser.SetActive(false);
-        moveBut.interactable = true;
+    public void DeactivateBonus(int bonusNumber) {
+        _areBonusesActivated[bonusNumber] = false;
+        UseVisualisers[bonusNumber].SetActive(false);
+        BonusButs[bonusNumber].interactable = true;
     }
 
     private void EnterBonusMode(){
-        if(_isHammerActivated) hammerUseVisualiser.SetActive(true);
-        else if(_isFurnaceActivated) furnaceUseVisualiser.SetActive(true);
-        
         PauseSet.Pause();
-        PauseBut.SetActive(false);
+        PauseBut.interactable = false;
         ExitBonusModeBut.SetActive(true);
 
-        hammerBut.interactable = false;
-        furnaceBut.interactable = false;
-        moveBut.interactable = false;
+        for (int i = 0; i < 3; i++)
+            BonusButs[i].interactable = false;
         _isInBonusMode = true;
     }
 
     public void LeaveBonusMode(){
-        if(_isHammerActivated) hammerUseVisualiser.SetActive(false);
-        else if(_isFurnaceActivated) furnaceUseVisualiser.SetActive(false);
+        if(_areBonusesActivated[0]) UseVisualisers[0].SetActive(false);
+        else if(_areBonusesActivated[1]) UseVisualisers[1].SetActive(false);
 
         PauseSet.Resume();
-        PauseBut.SetActive(true);
+        PauseBut.interactable = true;
         ExitBonusModeBut.SetActive(false);
 
-        hammerBut.interactable = true;
-        furnaceBut.interactable = true;
-        if(!_isMoveActivated)moveBut.interactable = true;
-        _isHammerActivated = false;
-        _isFurnaceActivated = false;
+        for (int i = 0; i < 2; i++) {
+            BonusButs[i].interactable = true;
+            _areBonusesActivated[i] = false;
+        }
+        if(!_areBonusesActivated[2]) BonusButs[2].interactable = true;
         _isInBonusMode = false;
     }
 }

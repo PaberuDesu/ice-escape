@@ -66,7 +66,7 @@ internal class TaskData{
                 definition = "СИНИЙ ПОБЕДИЛ";
                 break;
             case 1:
-                act = (int x) => Character.Red._isNextTo(CellTypes.PermanentIceLocator);
+                act = (int x) => GridManager.Red.isNextToPermanent();
                 definition = "В КОНЦЕ ИГРЫ КРАСНЫЙ ВОЗЛЕ ТВЕРДОГО ЛЬДА";
                 break;
             case 2:
@@ -78,11 +78,11 @@ internal class TaskData{
                 definition = "НАБРАНО БОЛЬШЕ 30 ОЧКОВ";
                 break;
             case 4:
-                act = (int x) => GetStarOnField.starObject?.activeInHierarchy == false;
+                act = (int x) => Star.GetStarToLevelResult();
                 definition = "ПОЛУЧЕНА ЗВЕЗДА В КОМНАТЕ";
                 break;
             case 5:
-                act = (int x) => Character.Red._isNextTo(CellTypes.WallLocator);
+                act = (int x) => GridManager.Red.isNextToWall();
                 definition = "В КОНЦЕ ИГРЫ КРАСНЫЙ ВОЗЛЕ СТЕНЫ";
                 break;
             default:
@@ -102,7 +102,9 @@ internal class TaskData{
     }
 
     private int RewriteStars(){
-        for(int i=0; i<3; i++){if (LevelConditions.PreviousResult[i] && !LevelConditions.CurrentResult[i]) return 0;}
+        for (int i = 0; i < 3; i++) {
+            if (LevelConditions.PreviousResult[i] && !LevelConditions.CurrentResult[i]) return 0;
+        }
         LevelButActivator.LevelResults[LoadLevel.LevelNumber].GotStars = new List<bool>(LevelConditions.CurrentResult);
         LevelButActivator.SaveResults();
         return 0;
